@@ -13,20 +13,22 @@ const plugin = {
       method: "GET",
       path: "/findall/{page}",
       handler: async (request: Request, h: ResponseToolkit) => {
-        const limit = 10;
+        const findall = await User.find();
+        const limit = 20;
         const show = request.params.page - 1;
-        const page = Math.ceil((await User.find()).length / limit);
+        const page = Math.ceil(findall.length / limit);
+        if (show + 1 > page) return h.response("Page not found").code(404);
         //skip  0  1
         //page  1  2
-        // 1 -10
+        // 1 -10 => page * 10 (limit)
         const find = await User.find({
           order: { id: "ASC" },
-          skip: show * 10,
+          skip: show * limit,
           take: limit,
         });
         const result = {
-          count: find.length,
-          page: show+1,
+          count: findall.length,
+          page: show + 1,
           items: find,
         };
         return h.response(result);

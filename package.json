@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@hapi/boom": "^10.0.0",
     "@hapi/hapi": "^20.2.2",
+    "@types/boom": "^7.3.2",
     "@types/hapi__hapi": "^20.0.13",
     "@types/mysql": "^2.15.21",
     "dotenv": "^16.0.3",
