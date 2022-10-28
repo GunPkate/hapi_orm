@@ -2,79 +2,61 @@ import Boom from "@hapi/boom";
 ("use strict");
 
 import { ResponseToolkit, RouteOptions, Server, Request } from "@hapi/hapi";
-import { User } from "../Entities/UserModel";
-import moment from "moment";
+import { User } from "../Entities/UserModels";
 import { userSchema } from "../Joi/UserSchema";
-import Joi from "joi";
-// import { Login } from "../model/login";
+import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
 
 const plugin = {
   name: "user",
   version: "1.0.0",
-  register: async function (server: Server, options: RouteOptions) {
+  register: async (server: Server) => {
     server.route({
-      method: "GET",
-      path: "/findall/{page}",
+      method: "POST",
+      path: "/user/register",
       handler: async (request: Request, h: ResponseToolkit) => {
-        {
-          const findall = await User.find();
-          const limit = 20;
-          const show = request.params.page - 1;
-          const page = Math.ceil(findall.length / limit);
-          if (show + 1 > page) return h.response("Page not found").code(404);
-          //skip  0  1
-          //page  1  2
-          // 1 -10 => page * 10 (limit)
-          const find = await User.find({
-            order: { id: "ASC" },
-            skip: show * limit,
-            take: limit,
-          });
-          const result = {
-            count: findall.length,
-            page: show + 1,
-            items: find,
-          };
-          return h.response(result);
+        const user: any = request.payload;
+        const { error, value } = userSchema.validate(user);
+        if (error) {
+          return Boom.boomify(error, { statusCode: 400 });
         }
+        const hash = await bcrypt.genSalt(10);
+        const pass = await bcrypt.hash(user.password, hash);
+
+        const register = await User.insert({
+          firstname: user.firstname,
+          lastname: user.lastname,
+          password: pass,
+        });
+        return await h.response(register);
       },
     });
 
     server.route({
       method: "POST",
-      // options: {
-      //   validate: {
-      //     payload: userSchema,
-      //   },
-      // },
-      path: "/login",
+      path: "/user/login",
       handler: async (request: Request, h: ResponseToolkit) => {
-        try {
-          const login: any = request.payload; //should define paylaod by interface
-          const time = new Date();
-          const { error, value } = userSchema.validate(login);
-          if (error) {
-            return Boom.boomify(error, { statusCode: 400 });
-          }
-          if (Joi.valid(login, userSchema)) {
-            const result = await User.create({
-              //User.Insert datetime null?
-              firstname: login.firstname,
-              lastname: login.lastname,
-              // datetime: moment().format("YYYY/MM/D HH:mm"),
-              // datetime: new Date(),
-            });
-            result.save();
-            console.log(result);
-            return h.response(result);
-          }
-        } catch (error: any) {
-          const err = new Error(error);
-          return Boom.boomify(err, { statusCode: 400 });
+        const user: any = request.payload;
+        const exist = await User.find({
+          select: { firstname: user.firstname, password: true },
+        });
+        if (exist !== null) {
+          // const checkpass = exist.password;
+          // bcrypt.compare(user.password, exist.password);
+          let token = Jwt.sign(user, "secret", { expiresIn: "1h" });
+          console.log(token);
         }
+        return h.response(exist);
+      },
+    });
 
-        // console.log(request.payload);
-        // console.log(login.firstname);
+    server.route({
+      method: "GET",
+      path: "/user/findall",
+      handler: async (request: Request, h: ResponseToolkit) => {
+        const findall = await User.find();
+        return h.response(findall);
+        // return h.response("findall");
       },
     });
   },

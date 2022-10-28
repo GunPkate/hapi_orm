@@ -1,16 +1,17 @@
-import { User } from "../Entities/UserModel";
+import { UserLog } from "../Entities/UserLogModel";
 import { DataSource } from "typeorm";
+import { User } from "../Entities/UserModels";
 
 const local_dataSource: DataSource = new DataSource({
   type: "mysql",
   host: "localhost",
-  port: 3406,
+  port: 3306,
   username: "root",
   password: "",
-  database: "intern_dev",
-  "synchronize": true,
+  database: "login",
+  synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [UserLog,User],
 });
 console.log("connected");
 local_dataSource.initialize();

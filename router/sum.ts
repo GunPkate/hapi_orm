@@ -10,8 +10,8 @@ const plugin = {
       method: "POST",
       path: "/sum",
       handler: async (request: Request, h: ResponseToolkit) => {
-        const numlist: Array<number> = request.payload;
-        // const numlist: Array<number> = [1, 2, 3, 4];
+        // const numlist: Array<number> = request.payload;
+        const numlist: Array<number> = [1, 2, 3, 4];
         let sum: number = 0;
         let finalsum: number = numlist.reduce(
           (previous: number, current: number) => current + previous,

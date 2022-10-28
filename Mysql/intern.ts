@@ -1,4 +1,4 @@
-import { User } from "../Entities/UserModel";
+import { UserLog } from "../Entities/UserLogModel";
 import { DataSource } from "typeorm";
 
 const local_dataSource: DataSource = new DataSource({
@@ -10,7 +10,7 @@ const local_dataSource: DataSource = new DataSource({
   database: "intern_test",
   synchronize: true,
   // logging: true,
-  entities: [User],
+  entities: [UserLog],
 });
 console.log("connected");
 local_dataSource.initialize();

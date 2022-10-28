@@ -14,6 +14,13 @@ const userSchema = Joi.object({
     "string.min": `input should have a minimum length of {#limit}`,
     "any.required": `input is a required field`,
   }),
+
+  password: Joi.string().alphanum().min(1).required().messages({
+    "string.base": `input should be a type of 'text'`,
+    "string.empty": `input cannot be an empty field`,
+    "string.min": `input should have a minimum length of {#limit}`,
+    "any.required": `input is a required field`,
+  }),
 });
 
 export { userSchema };
