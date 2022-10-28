@@ -3,9 +3,12 @@ import user from "./router/user";
 import sum from "./router/sum";
 import intern from "./Mysql/intern";
 import wait from "./router/wait";
+import { userSchema } from "./Joi/UserSchema";
 
 const init = async () => {
-  await server.register(user);
+  await server.register({
+    plugin: user,
+  });
   await server.register(sum);
   await server.register(wait);
   await server.start();

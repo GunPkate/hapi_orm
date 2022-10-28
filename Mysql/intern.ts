@@ -9,7 +9,7 @@ const local_dataSource: DataSource = new DataSource({
   password: "intern@2022",
   database: "intern_test",
   synchronize: true,
-  logging: true,
+  // logging: true,
   entities: [User],
 });
 console.log("connected");

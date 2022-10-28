@@ -10,12 +10,15 @@ const plugin = {
       method: "POST",
       path: "/sum",
       handler: async (request: Request, h: ResponseToolkit) => {
-        const numlist: any = request.payload;
+        const numlist: Array<number> = request.payload;
+        // const numlist: Array<number> = [1, 2, 3, 4];
         let sum: number = 0;
-        for (let e of numlist.num) sum += e;
-        console.log(sum);
+        let finalsum: number = numlist.reduce(
+          (previous: number, current: number) => current + previous,
+          sum
+        );
 
-        return h.response(`${sum}`).code(220);
+        return h.response(`${finalsum}`).code(220);
       },
     });
   },
