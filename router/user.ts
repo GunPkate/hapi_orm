@@ -37,16 +37,23 @@ const plugin = {
       path: "/user/login",
       handler: async (request: Request, h: ResponseToolkit) => {
         const user: any = request.payload;
-        const exist = await User.find({
+        const exist: User | any = await User.find({
           select: { firstname: user.firstname, password: true },
         });
+        let token = "";
         if (exist !== null) {
-          // const checkpass = exist.password;
-          // bcrypt.compare(user.password, exist.password);
-          let token = Jwt.sign(user, "secret", { expiresIn: "1h" });
+          const checkpass = await bcrypt.compare(
+            exist[0].password,
+            user.password
+          );
+          token = Jwt.sign(user, "secret", { expiresIn: "1h" });
+          // console.log(checkpass);
+          console.log(user.password, 1);
+          console.log(exist[0].password, 2);
+          console.log(checkpass, 3);
           console.log(token);
         }
-        return h.response(exist);
+        return h.response(token);
       },
     });
 
