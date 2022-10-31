@@ -6,6 +6,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/boom": "^7.3.2",
     "@types/hapi__hapi": "^20.0.13",
+    "@types/hapi__inert": "^5.2.3",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/mysql": "^2.15.21",

@@ -1,3 +1,4 @@
+import inert from "@hapi/inert";
 import server from "./server";
 import userlog from "./router/userlog";
 import user from "./router/user";
@@ -12,7 +13,7 @@ const init = async () => {
   await server.register({
     plugin: userlog,
   });
-  await server.register(user);
+  await server.register([inert, user]);
   await server.register(sum);
   await server.register(wait);
   await server.start();

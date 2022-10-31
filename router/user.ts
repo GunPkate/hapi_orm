@@ -12,6 +12,14 @@ const plugin = {
   version: "1.0.0",
   register: async (server: Server) => {
     server.route({
+      method: "GET",
+      path: "/user/formpage",
+      handler: async (request: Request, h: ResponseToolkit) => {
+        return await h.file("./index_ts.html");
+      },
+    });
+
+    server.route({
       method: "POST",
       path: "/user/register",
       handler: async (request: Request, h: ResponseToolkit) => {
@@ -32,30 +40,31 @@ const plugin = {
       },
     });
 
-    // server.route({
-    //   method: "POST",
-    //   path: "/user/login",
-    //   handler: async (request: Request, h: ResponseToolkit) => {
-    //     const user: any = request.payload;
-    //     const exist: User | any = await User.find({
-    //       select: { firstname: user.firstname, password: true },
-    //     });
-    //     let token = "";
-    //     if (exist !== null) {
-    //       // const checkpass = await bcrypt.compare(
-    //       //   exist[0].password,
-    //       //   user.password
-    //       // );
-    //       token = Jwt.sign(user, "secret", { expiresIn: "1h" });
-    //       // console.log(checkpass);
-    //       console.log(user.password, 1);
-    //       console.log(exist[0].password, 2);
-    //       // console.log(checkpass, 3);
-    //       console.log(token);
-    //     }
-    //     return h.response(token);
-    //   },
-    // });
+    server.route({
+      method: "POST",
+      path: "/user/login",
+      handler: async (request: Request, h: ResponseToolkit) => {
+        const user: any = request.payload;
+        const exist: User | any = await User.find({
+          select: { firstname: user.firstname, password: true },
+        });
+        let token = "";
+        if (exist !== null) {
+          // const checkpass = await bcrypt.compare(
+          //   exist[0].password,
+          //   user.password
+          // );
+          token = Jwt.sign(user, "secret", { expiresIn: "1h" });
+          // console.log(checkpass);
+          console.log(user.firstname, 1);
+          console.log(user.password, 1);
+          console.log(exist[0].password, 2);
+          // console.log(checkpass, 3);
+          console.log(token);
+        }
+        return h.response(token);
+      },
+    });
 
     server.route({
       method: "GET",
