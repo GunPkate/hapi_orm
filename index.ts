@@ -1,7 +1,7 @@
 import server from "./server";
 import userlog from "./router/userlog";
 import user from "./router/user";
-import { authen } from "./router/authen";
+// import { authen } from "./router/authen";
 import sum from "./router/sum";
 import intern from "./Mysql/intern";
 import local from "./Mysql/local";
@@ -19,6 +19,6 @@ const init = async () => {
   console.log(server.info.uri);
 };
 
-// intern.initialize();
-local.initialize();
+intern.initialize();
+// local.initialize();
 init().then();

@@ -1,44 +1,47 @@
-import Boom from "@hapi/boom";
-("use strict");
+// import Boom from "@hapi/boom";
+// ("use strict");
 
-import { ResponseToolkit, RouteOptions, Server, Request } from "@hapi/hapi";
-import { User } from "../Entities/UserModels";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
+// import { ResponseToolkit, RouteOptions, Server, Request } from "@hapi/hapi";
+// import { User } from "../Entities/UserModels";
+// import bcrypt from "bcrypt";
+// import Jwt from "jsonwebtoken";
 
-let isValid = false;
-const authen = {
-  name: "authen",
-  version: "1.0.0",
-  congfig: {},
-  register: async (server: Server) => {
-    let token = "";
-    const validateUser = async () => {
-      const user: any = {
-        firstname: "Gun",
-        lastname: "Pun",
-        password: "134",
-      };
-      const exist = await User.find({
-        select: { firstname: user.firstname, password: true },
-      });
+// let isValid = false;
+// const authen = {
+//   name: "authen",
+//   version: "1.0.0",
+//   congfig: {},
+//   register: async (server: Server) => {
+//     let token = "";
+//     const exist: any = {
+//       firstname: "Gun",
+//       lastname: "Pun",
+//       password: "134",
+//     };
 
-      if (exist) {
-        isValid = true;
-      }
+//     const validateUser = async function (decoded :Decoded, request:Request, h:ResponseToolkit) => {
+//       // const exist = await User.find({
+//       //   select: { firstname: user.firstname, password: true },
+//       // });
 
-      return isValid;
-    };
+//       if (exist) {
+//         isValid = true;
+//       }
 
-    server.auth.strategy("jwt", "jwt", {
-      key: "secret",
-      validate: validateUser(),
-    });
+//       return isValid;
+//     };
 
-    if (server.auth) {
-      server.auth.default("jwt");
-    }
-  },
-};
+//     server.auth.strategy("jwt", "jwt", {
+//       key: "secret",
+//       validate: validateUser(),
+//     });
 
-export { authen };
+//     if (server.auth) {
+//       server.auth.default("jwt");
+//     }
+
+//     token = Jwt.sign(exist, "secret", { expiresIn: "1h" });
+//   },
+// };
+
+// export { authen };
