@@ -22,7 +22,8 @@ const init = async () => {
     path: "/login",
 
     handler: function (request, h) {
-      console.log(request.payload);
+      console.log(request.payload.user);
+      console.log(request.payload.password);
       // return h.file("./index,html");
       return h.response(request.payload);
     },
