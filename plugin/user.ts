@@ -14,7 +14,9 @@ const plugin = {
     server.route({
       method: "POST",
       path: "/user/register",
-
+      // options: {
+      //   auth: { strategy: "jwt" },
+      // },
       handler: async (request: Request, h: ResponseToolkit) => {
         const user: any = request.payload;
         const { error, value } = userSchema.validate(user);

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./index.js"></script>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .form{
+            width: auto;
+            height: 50vh;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            
+            align-items: center;
+            justify-content: center;
+        }
+
+        input{
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/auth/login" method="POST">
+        <div class="form">
+            <input type="text" id="user" name="firstname" value="KPM"/>
+            <input type="text" id="password" name="password" value="125"/>
+            <input type="submit"  value="login"/>
+        </div>
+    </form>
+    <a href="/user">user</a>
+</body>
+</html>
