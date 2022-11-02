@@ -7,9 +7,16 @@ import sum from "./router/sum";
 import intern from "./Mysql/intern";
 import local from "./Mysql/local";
 import wait from "./router/wait";
+import { authController } from "./controller/authController";
+import { basicValidate } from "./controller/validate/basicValidate";
 
 const init = async () => {
   // await server.register(authen);
+  await server.register(require("hapi-auth-jwt2"));
+  await server.register(require("@hapi/basic"));
+  // await server.register(jwt);
+  server.auth.strategy("simple", "basic", { validate: basicValidate() });
+  await server.route(authController());
   await server.register({
     plugin: userlog,
   });

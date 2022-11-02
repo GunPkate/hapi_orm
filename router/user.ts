@@ -12,16 +12,9 @@ const plugin = {
   version: "1.0.0",
   register: async (server: Server) => {
     server.route({
-      method: "GET",
-      path: "/user/formpage",
-      handler: async (request: Request, h: ResponseToolkit) => {
-        return await h.file("./index_ts.html");
-      },
-    });
-
-    server.route({
       method: "POST",
       path: "/user/register",
+
       handler: async (request: Request, h: ResponseToolkit) => {
         const user: any = request.payload;
         const { error, value } = userSchema.validate(user);
@@ -63,6 +56,14 @@ const plugin = {
           console.log(token);
         }
         return h.response(token);
+      },
+    });
+
+    server.route({
+      method: "GET",
+      path: "/user/formpage",
+      handler: async (request: Request, h: ResponseToolkit) => {
+        return await h.file("./index_ts.html");
       },
     });
 
