@@ -10,13 +10,15 @@ import wait from "./router/wait";
 import { authController } from "./controller/authController";
 import { basicValidate } from "./controller/validate/basicValidate";
 
+// const connect = intern;
+const connect = local;
 const init = async () => {
   // await server.register(authen);
   await server.register(require("hapi-auth-jwt2"));
   await server.register(require("@hapi/basic"));
   // await server.register(jwt);
-  server.auth.strategy("simple", "basic", { validate: basicValidate() });
-  await server.route(authController());
+  server.auth.strategy("simple", "basic", { validate: basicValidate(connect) });
+  await server.route(authController(connect));
   await server.register({
     plugin: userlog,
   });
@@ -27,6 +29,6 @@ const init = async () => {
   console.log(server.info.uri);
 };
 
-intern.initialize();
-// local.initialize();
+connect.initialize();
+
 init().then();
